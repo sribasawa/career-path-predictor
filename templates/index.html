@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerPath AI | Career Predictor</title>
+<style>
+:root{--bg:#090d18;--panel:#111827;--panel2:#172033;--line:#273449;--text:#eef3ff;--muted:#9ba9c0;--accent:#8b7cff;--cyan:#4dd8d0;--good:#48d6a2;--bad:#ff8292}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#20204b 0,transparent 38%),radial-gradient(ellipse at 100% 20%,#10313c 0,transparent 32%),var(--bg);color:var(--text);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0}.wrap{width:min(1120px,calc(100% - 32px));margin:auto}.top{display:flex;align-items:center;justify-content:space-between;padding:24px 0}.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--accent),#40c9c0);display:grid;place-items:center;color:white;font-size:21px;box-shadow:0 8px 30px #7566ff55}.pill{border:1px solid var(--line);color:var(--muted);padding:7px 12px;border-radius:99px;font-size:12px}
+main{padding:24px 0 70px}.hero{margin:24px 0 28px}.eyebrow{color:var(--cyan);font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase}.hero h1{font-size:clamp(30px,5vw,50px);line-height:1.08;letter-spacing:-1.8px;margin:10px 0}.hero p{color:var(--muted);max-width:650px;margin:12px 0}.gradient{background:linear-gradient(90deg,#b9b1ff,#59e3d5);-webkit-background-clip:text;background-clip:text;color:transparent}
+.card{background:linear-gradient(145deg,#151e30ee,#101827f5);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 18px 60px #0003}.auth{max-width:470px;margin:38px auto}.card h2{margin:0 0 5px;font-size:23px}.sub{color:var(--muted);margin:0 0 22px}.tabs{display:flex;background:#0b1220;padding:5px;border-radius:12px;margin:18px 0}.tabs button{flex:1;background:transparent;color:var(--muted);padding:10px;border-radius:9px}.tabs button.active{background:#26314a;color:white}
+label{display:block;color:#cbd5e6;font-size:13px;font-weight:650;margin:15px 0 7px}input,textarea{width:100%;background:#0a1220;border:1px solid #2a3850;border-radius:11px;padding:12px 14px;color:white;outline:none}input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #8b7cff22}textarea{min-height:95px;resize:vertical}.btn{width:100%;padding:13px 17px;border-radius:12px;color:white;font-weight:750;background:linear-gradient(100deg,#7968f5,#398fc9);box-shadow:0 8px 24px #7165e744;margin-top:20px}.btn:disabled{opacity:.6;cursor:wait}.error{color:var(--bad);font-size:13px;margin-top:12px;min-height:18px}.hint{color:var(--muted);font-size:12px;margin-top:16px}.hint code{color:#d8d2ff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.wide{grid-column:1/-1}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}.sectionhead h2{font-size:20px;margin:0}.smallbtn{background:#26314a;color:#dce5f6;border:1px solid #34425b;padding:8px 12px;border-radius:10px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.formgrid .full{grid-column:1/-1}.muted{color:var(--muted)}.results{display:none;margin-top:22px}.resulttop{display:grid;grid-template-columns:1.3fr .7fr;gap:18px}.careername{font-size:clamp(23px,3vw,34px);font-weight:850;line-height:1.15;margin:10px 0}.score{display:grid;place-items:center;text-align:center;border-radius:18px;background:linear-gradient(145deg,#292455,#153b43);padding:20px}.score strong{font-size:42px;line-height:1.2}.score span{font-size:12px;color:#c2cee0}.bar{height:9px;background:#29364b;border-radius:99px;overflow:hidden;margin:10px 0 18px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:99px}.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{font-size:12px;border-radius:99px;padding:7px 10px;background:#14382f;color:#9bf0cf;border:1px solid #28604e}.chip.missing{background:#3c2530;color:#ffb1bb;border-color:#673743}.roadmap{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.step{padding:16px;border:1px solid var(--line);background:#0c1524;border-radius:14px}.step b{color:var(--cyan);font-size:12px}.step h3{font-size:16px;margin:6px 0}.step p{font-size:13px;color:var(--muted);margin:6px 0}.scoreslist{display:grid;gap:12px}.scoreline{display:grid;grid-template-columns:minmax(130px,1fr) 2fr 48px;gap:10px;align-items:center;font-size:13px}.scoreline .bar{margin:0}.footer{text-align:center;color:#71809a;font-size:12px;padding:25px 0 40px}
+@media(max-width:700px){.wrap{width:min(100% - 22px,600px)}.top{padding:16px 0}.hero{margin:16px 0 22px}.card{padding:18px}.grid,.resulttop{grid-template-columns:1fr}.formgrid,.roadmap{grid-template-columns:1fr}.formgrid .full{grid-column:auto}.scoreline{grid-template-columns:1fr 1fr 42px}.scoreline span:first-child{grid-column:1/-1}.pill{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand"><div class="logo">✦</div><div>CareerPath <span class="gradient">AI</span></div></div><div class="pill">ENGINEERING CAREER INTELLIGENCE</div></header>
+<main>
+<section class="hero"><div class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</div><h1>Turn your skills into a <span class="gradient">career direction.</span></h1><p>Build your student profile and explore the engineering career domain that best matches your skills, interests and projects.</p></section>
+<section id="authView" class="card auth">
+<h2>Welcome to CareerPath AI</h2><p class="sub">Sign in to continue to your career workspace.</p>
+<div class="tabs"><button id="loginTab" class="active" type="button">Sign in</button><button id="registerTab" type="button">Create account</button></div>
+<div id="nameWrap" style="display:none"><label for="authName">Your name</label><input id="authName" autocomplete="name" placeholder="e.g. Alex Kumar"></div>
+<label for="email">College email</label><input id="email" type="email" autocomplete="username" placeholder="student@college.edu">
+<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Enter your password">
+<button id="authButton" class="btn" type="button">Sign in</button><div id="authError" class="error" role="alert"></div>
+<p class="hint">Demo account: <code>student@college.edu</code> / <code>password123</code></p>
+</section>
+<section id="appView" style="display:none">
+<div class="sectionhead"><div><div class="eyebrow">STUDENT WORKSPACE</div><h2 id="welcome">Your career workspace</h2></div><button id="logout" class="smallbtn" type="button">Sign out ↗</button></div>
+<div class="grid">
+<section class="card wide"><div class="sectionhead"><div><h2>Build your student profile</h2><p class="sub" style="margin:5px 0 0">A few details help us compare your profile with career domains.</p></div><span class="pill">PROFILE INPUT</span></div>
+<form id="predictForm"><div class="formgrid">
+<div><label for="cgpa">Current CGPA (out of 10)</label><input id="cgpa" type="number" min="0" max="10" step="0.01" value="8" required></div>
+<div><label for="skills">Technical skills</label><input id="skills" placeholder="Python, SQL, HTML, Java..." required></div>
+<div class="full"><label for="interests">Areas of interest</label><textarea id="interests" placeholder="Tell us what topics or technologies you enjoy..."></textarea></div>
+<div class="full"><label for="projects">Projects / experience</label><textarea id="projects" placeholder="Describe your college projects, internships or practical work..."></textarea></div>
+</div><button id="predictButton" class="btn" type="submit">✨ Predict my career path</button><div id="predictError" class="error" role="alert"></div></form>
+</section>
+</div>
+<div id="results" class="results">
+<div class="resulttop">
+<section class="card"><div class="eyebrow">YOUR TOP CAREER MATCH</div><div id="careerName" class="careername">Career domain</div><p id="tagline" class="muted"></p><div class="muted" style="font-size:13px">Career match score</div><div class="bar"><i id="matchBar"></i></div><strong id="matchText"></strong></section>
+<section class="score"><div><strong id="readiness">0%</strong><br><span>SKILL READINESS</span></div></section>
+</div>
+<div class="grid" style="margin-top:18px">
+<section class="card"><h2>Skills you already match</h2><p class="sub">Skills detected in your profile</p><div id="matched" class="chips"></div></section>
+<section class="card"><h2>Skills to strengthen</h2><p class="sub">Suggested areas to focus on</p><div id="missing" class="chips"></div></section>
+<section class="card wide"><h2>Career domain comparison</h2><p class="sub">Your profile similarity across available domains</p><div id="allScores" class="scoreslist"></div></section>
+<section class="card wide"><h2>Your 4-month learning roadmap</h2><p class="sub">A practical sequence based on your top career match</p><div id="roadmap" class="roadmap"></div></section>
+<section class="card wide"><h2>CGPA guidance</h2><p id="cgpaFeedback" class="muted"></p></section>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">CareerPath AI · Career guidance for engineering students</footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let registerMode=false;
+function setMode(isRegister){registerMode=isRegister;$('loginTab').classList.toggle('active',!isRegister);$('registerTab').classList.toggle('active',isRegister);$('nameWrap').style.display=isRegister?'block':'none';$('authButton').textContent=isRegister?'Create account':'Sign in';$('authError').textContent='';}
+$('loginTab').addEventListener('click',()=>setMode(false));
+$('registerTab').addEventListener('click',()=>setMode(true));
+async function requestJSON(url,options={}){const response=await fetch(url,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})},credentials:'same-origin'});let data={};try{data=await response.json()}catch(e){}if(!response.ok)throw new Error(data.message||data.error||`Request failed (${response.status})`);return data;}
+function showApp(name){$('authView').style.display='none';$('appView').style.display='block';$('welcome').textContent=`Welcome, ${name||'student'}`;}
+function showAuth(){$('appView').style.display='none';$('authView').style.display='block';$('results').style.display='none';}
+$('authButton').addEventListener('click',async()=>{const email=$('email').value.trim(),password=$('password').value; if(!email||!password){$('authError').textContent='Enter your email and password.';return;} $('authButton').disabled=true;$('authError').textContent='Connecting...';try{const data=await requestJSON('/api/login',{method:'POST',body:JSON.stringify({email,password,name:$('authName').value.trim(),is_register:registerMode})});showApp(data.name);}catch(e){$('authError').textContent=e.message;}finally{$('authButton').disabled=false;}});
+$('password').addEventListener('keydown',e=>{if(e.key==='Enter')$('authButton').click()});
+$('logout').addEventListener('click',async()=>{try{await requestJSON('/api/logout',{method:'POST',body:'{}'});}catch(e){}showAuth();});
+function addChips(target,items,missing=false){const el=$(target);el.innerHTML='';if(!items||!items.length){el.textContent='None identified';el.className='chips muted';return;}items.forEach(item=>{const span=document.createElement('span');span.className='chip'+(missing?' missing':'');span.textContent=item;el.appendChild(span);});}
+function renderResult(d){$('careerName').textContent=d.best_career||'Career match';$('tagline').textContent=d.tagline||'';$('matchText').textContent=`${d.match_score}% match`;$('matchBar').style.width=`${Math.max(0,Math.min(100,Number(d.match_score)||0))}%`;$('readiness').textContent=`${d.readiness_pct||0}%`;addChips('matched',d.matched_skills);addChips('missing',d.missing_skills,true);$('cgpaFeedback').textContent=d.cgpa_feedback||'';const scores=$('allScores');scores.innerHTML='';(d.all_scores||[]).forEach(([name,value])=>{const row=document.createElement('div');row.className='scoreline';const label=document.createElement('span');label.textContent=name;const bar=document.createElement('div');bar.className='bar';const fill=document.createElement('i');fill.style.width=`${Math.max(0,Math.min(100,Number(value)||0))}%`;bar.appendChild(fill);const val=document.createElement('b');val.textContent=`${value}%`;row.append(label,bar,val);scores.appendChild(row);});const roadmap=$('roadmap');roadmap.innerHTML='';(d.roadmap||[]).forEach(step=>{const card=document.createElement('article');card.className='step';const phase=document.createElement('b');phase.textContent=`STEP ${step.step||''} · ${step.phase||''}`;const title=document.createElement('h3');title.textContent=step.focus||'';const tasks=document.createElement('p');tasks.textContent=step.tasks||'';const milestone=document.createElement('p');milestone.textContent=step.milestone?`Milestone: ${step.milestone}`:'';card.append(phase,title,tasks,milestone);roadmap.appendChild(card);});$('results').style.display='block';$('results').scrollIntoView({behavior:'smooth',block:'start'});}
+$('predictForm').addEventListener('submit',async e=>{e.preventDefault();$('predictButton').disabled=true;$('predictError').textContent='Analysing your profile...';try{const data=await requestJSON('/predict',{method:'POST',body:JSON.stringify({skills:$('skills').value,cgpa:$('cgpa').value,interests:$('interests').value,projects:$('projects').value})});renderResult(data);$('predictError').textContent='';}catch(err){$('predictError').textContent=err.message;}finally{$('predictButton').disabled=false;}});
+async function init(){try{const data=await requestJSON('/api/status');if(data.logged_in)showApp(data.name);else showAuth();}catch(e){showAuth();$('authError').textContent='Could not contact the server. Please refresh the page.';}}
+init();
+</script>
+</body>
+</html>
